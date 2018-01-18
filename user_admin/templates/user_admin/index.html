@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <p>Dobrodošli {{ user.get_username }}</p>
+    {% else %}
+        <p>Niste še prijavljeni</p>
+    {% endif %}
+
+{% endblock %}

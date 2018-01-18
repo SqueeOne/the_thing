@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    <div class="row month-bg">
+        <div class="col">
+            <ul class="month-list">
+                {% for month in months_named %}
+                    <li class="month-ind"><a href="{% url 'work_month_single' user.id current_year forloop.counter %}">{{ month }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+{% endblock %}

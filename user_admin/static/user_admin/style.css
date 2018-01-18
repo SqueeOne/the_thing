@@ -1,0 +1,37 @@
+.month-bg {
+    background-color: #CEF2EF;
+    padding: 20px 0px;
+}
+
+.month-list {
+    list-style-type: none;
+}
+
+.month-list > li {
+    width: 8rem;
+    height:8rem;
+    background-color: #82B1CD;
+    display: inline-block;
+    margin-right:10px;
+    margin-top:10px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.day-list {
+    margin: 10px;
+}
+
+.day-item {
+    height: 10rem;
+    width:10rem;
+    background-color: #82B1CD;
+    display: block;
+    margin: 20px 20px 0px 0px;
+}
+
+.day-title {
+    text-align: center;
+    font-weight: 700;
+    background-color: #F9F1BC;
+}
