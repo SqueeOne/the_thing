@@ -7,20 +7,32 @@
             
         </div>
         <div class="col-6">
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Ime projekta</th>
-                        <th scope="col">število ur</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Projekt 1</th>
-                        <td><input type="text" class="form-control" /></td>
-                    </tr>
-                </tbody>
-            </table>
+            <form class="" method="post" action="">
+                {% csrf_token %}
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ime projekta</th>
+                            <th scope="col">število ur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in formset %}
+                            {% with forloop.counter as x %}
+                                <tr>
+                                    {% for project in available_projects %}
+                                        {% if project.id == x %}<th scope="row">{{ project.title }}</th>{% endif %}
+                                    {% endfor %}
+                                    {% for field in form %}
+                                        {% if field.name == 'hours_worked' %}<td>{{ field }}</td>{% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endwith %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary btn-lg">Vnesi</button>
+            </form>
         </div>
     </div>
 

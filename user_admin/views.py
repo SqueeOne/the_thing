@@ -1,13 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
+from django.forms import formset_factory
 
 import datetime
 import calendar
 from calendar import monthrange
 from time import strftime
 
-from .forms import WorkDayForm
-from .models import WorkDay
+from .forms import WorkDayForm, WorkOnProjectForm
+from .models import WorkDay, Projects
 
 def index(request):
     
@@ -83,5 +84,13 @@ def work_day_single(request, user_id, c_year, c_month, c_day):
 def divide_work_day(request, work_day_id):
     work_day = get_object_or_404(WorkDay, pk=work_day_id)
     hours_worked = ((work_day.end_time.hour*60 + work_day.end_time.minute) - (work_day.start_time.hour*60 + work_day.start_time.minute))/60
+    available_projects = Projects.objects.all()
     
-    return render(request, 'user_admin/divide_work_day.html', {'hours_worked': hours_worked})
+    calc = 0
+    
+    for item in available_projects:
+        calc+=1
+    
+    formset = formset_factory(WorkOnProjectForm, extra=calc)
+    
+    return render(request, 'user_admin/divide_work_day.html', {'hours_worked': hours_worked, 'available_projects': available_projects, 'formset': formset})
