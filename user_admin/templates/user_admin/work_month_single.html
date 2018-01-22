@@ -7,12 +7,54 @@
         </div>
         <div class="row day-list">
         {% for day in days_list_dated %}
-            <div class="day-item">
-                <div class="day-title">
-                    {{ day|date:"j. l" }}
+            {% if day|date:"l" == "nedelja" or day|date:"l" == "sobota" %}
+                 <div class="day-item-red">
+                    <a href="{% url 'work_day_single' user.id c_year c_month day|date:'j' %}">
+                    <div class="day-title">
+                        {{ day|date:"j. l" }}
+                    </div>
+                </a>
+                <div class="day-times text-center">
+                    <ul>
+                    {% for k, v in user_work_time.items %}
+                        {% for val in v %}
+                            {% if k|date:'Y, n, j' == day|date:'Y, n, j' %}
+                                <li>{{ val }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    </ul>
                 </div>
             </div>
-            {% endfor %}
-        </ul>
+            {% else %}
+            <div class="day-item">
+                <a href="{% url 'work_day_single' user.id c_year c_month day|date:'j' %}">
+                    <div class="day-title">
+                        {{ day|date:"j. l" }}
+                    </div>
+                </a>
+                <div class="day-times text-center">
+                    <ul>
+                    {% for k, v in user_work_time.items %}
+                        {% for val in v %}
+                            {% if k|date:'Y, n, j' == day|date:'Y, n, j' %}
+                                <li>{{ val }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            
+        </div>
+        <div class="col-4">
+            <h2>skupno {{ calc }} ur.</h2>
+        </div>
     </div>
 {% endblock %}
