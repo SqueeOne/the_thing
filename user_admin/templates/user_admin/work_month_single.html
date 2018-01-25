@@ -40,10 +40,20 @@
                             {% if k|date:'Y, n, j' == day|date:'Y, n, j' %}
                                 <li>{{ val }}</li>
                             {% endif %}
+                       
                         {% endfor %}
                     {% endfor %}
                     </ul>
                 </div>
+                {% for k, v in user_work_time.items %}
+                    {% if k|date == day|date %}
+                        {% for item in work_time %}
+                            {% if item.day|date == day|date %}
+                                <a class="btn btn-primary btn-sm" href="{% url 'divide_work_day' user.id item.id %}" role="button">Razdeli ure</a>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
             </div>
             {% endif %}
         {% endfor %}

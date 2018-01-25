@@ -53,7 +53,7 @@ def work_month_single(request, user_id, c_year, c_month):
             time_list.append(temp)
             calc+=temp
         
-    return render(request, 'user_admin/work_month_single.html', {'days_list_dated': days_list_dated, 'user_work_time': user_work_time, 'c_year': c_year, 'c_month': c_month, 'current_month': current_month, 'calc': calc, 'time_list': time_list})
+    return render(request, 'user_admin/work_month_single.html', {'days_list_dated': days_list_dated, 'user_work_time': user_work_time, 'c_year': c_year, 'c_month': c_month, 'current_month': current_month, 'calc': calc, 'time_list': time_list, 'work_time': work_time})
     
     
 def work_day_single(request, user_id, c_year, c_month, c_day):
@@ -81,7 +81,7 @@ def work_day_single(request, user_id, c_year, c_month, c_day):
     return render(request, 'user_admin/work_day_single.html', {'form': form})
     
     
-def divide_work_day(request, work_day_id):
+def divide_work_day(request, user_id, work_day_id):
     work_day = get_object_or_404(WorkDay, pk=work_day_id)
     hours_worked = ((work_day.end_time.hour*60 + work_day.end_time.minute) - (work_day.start_time.hour*60 + work_day.start_time.minute))/60
     available_projects = Projects.objects.all()
@@ -91,6 +91,26 @@ def divide_work_day(request, work_day_id):
     for item in available_projects:
         calc+=1
     
-    formset = formset_factory(WorkOnProjectForm, extra=calc)
+    WDFormset = formset_factory(WorkOnProjectForm, extra=calc)
+    
+    if request.method == 'POST':
+        temp = 1
+        formset = WDFormset(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                inst = form.save(commit=False)
+                inst.project_id = temp
+                temp+=1
+                inst.work_day_id = work_day_id
+                if form.is_valid():
+                    form.save()
+                    
+                else:
+                    print("ooooooooooo")
+            return redirect('work_month_single', request.user.id, work_day.day.year, work_day.day.month)
+        else:
+            print("zzzzzZZZZzzzz")
+    else:
+        formset = WDFormset()
     
     return render(request, 'user_admin/divide_work_day.html', {'hours_worked': hours_worked, 'available_projects': available_projects, 'formset': formset})

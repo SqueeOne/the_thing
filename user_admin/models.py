@@ -33,4 +33,4 @@ class WorkOnProject(models.Model):
     hours_worked = models.DecimalField(max_digits=3, decimal_places=1)
     
     def __str__(self):
-        return self.work_day__worker__username + ' - ' + self.work_day__day
+        return self.work_day.worker.username + ' - ' + str(self.work_day.day)

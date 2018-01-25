@@ -4,10 +4,11 @@
 
     <div class="row">
         <div class="col-3">
-            
+            <h2 class="hours-worked">{{ hours_worked }}</h2>
+            <h3 class="total"></h3>
         </div>
         <div class="col-6">
-            <form class="" method="post" action="">
+            <form class="divide-form" method="post" action="">
                 {% csrf_token %}
                 <table class="table table-dark">
                     <thead>
@@ -17,6 +18,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{ formset.management_form }}
                         {% for form in formset %}
                             {% with forloop.counter as x %}
                                 <tr>
@@ -32,8 +34,15 @@
                     </tbody>
                 </table>
                 <button type="submit" class="btn btn-primary btn-lg">Vnesi</button>
+                <div class="row">
+                    <div class="col-4">
+                        
+                    </div>
+                    <div class="alertz col-4">
+                        
+                    </div>
+                </div>
             </form>
         </div>
     </div>
-
 {% endblock %}
